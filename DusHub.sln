@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32126.317
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DusHub", "DusHub\DusHub.csproj", "{47421328-D2D9-4AEF-9332-7C864CC89E42}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{47421328-D2D9-4AEF-9332-7C864CC89E42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47421328-D2D9-4AEF-9332-7C864CC89E42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47421328-D2D9-4AEF-9332-7C864CC89E42}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{47421328-D2D9-4AEF-9332-7C864CC89E42}.Debug|x64.Build.0 = Debug|Any CPU
+		{47421328-D2D9-4AEF-9332-7C864CC89E42}.Debug|x86.ActiveCfg = Debug|x86
+		{47421328-D2D9-4AEF-9332-7C864CC89E42}.Debug|x86.Build.0 = Debug|x86
+		{47421328-D2D9-4AEF-9332-7C864CC89E42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47421328-D2D9-4AEF-9332-7C864CC89E42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47421328-D2D9-4AEF-9332-7C864CC89E42}.Release|x64.ActiveCfg = Release|x64
+		{47421328-D2D9-4AEF-9332-7C864CC89E42}.Release|x64.Build.0 = Release|x64
+		{47421328-D2D9-4AEF-9332-7C864CC89E42}.Release|x86.ActiveCfg = Release|x86
+		{47421328-D2D9-4AEF-9332-7C864CC89E42}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {46C214BB-8982-4C27-B449-F9AC6A09C7F5}
+	EndGlobalSection
+EndGlobal

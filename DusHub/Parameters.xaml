@@ -1,0 +1,114 @@
+﻿<Window x:Class="DusHub.Parameters"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DusHub"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        Title="Parameters" Height="370" Width="320" Icon="/hammer.png" ResizeMode="NoResize" BorderThickness="1,1,1,1" UseLayoutRounding="True">
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.20*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="0.15*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="5,5,0,0">
+            <Image Source="/hammer.png" Height="16" Width="16" />
+            <Label Content="Parameters: " FontSize="16" />
+        </StackPanel>
+
+        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Vertical" Margin="10,0,10,0">
+
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/folderY.png" Height="12" Width="12" />
+                <Label Content="_LookUpFolder: " Target="{Binding ElementName=txtLufBox}" FontSize="12" />
+            </StackPanel>
+            <TextBox Text="D:/" Name="txtLufBox" FontSize="12" Padding="2"/>
+
+            <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                <Image Source="/file.png" Height="12" Width="12" />
+                <Label Content="_BatchFileTarget: " Target="{Binding ElementName=txtTarget}" FontSize="12" />
+            </StackPanel>
+            <TextBox Text="Launcher.bat" Name="txtTarget" FontSize="12" Padding="2"/>
+
+            <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                <Image Source="/encryption.png" Height="12" Width="12" />
+                <Label Content="_RegeditAddress: " Target="{Binding ElementName=txtRegedit}" FontSize="12" />
+            </StackPanel>
+            <TextBox Text="general/" Name="txtRegedit" FontSize="12" Padding="2" IsEnabled="{Binding ElementName=ExpertBox1, Path=IsChecked}" />
+
+            <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                <StackPanel Orientation="Vertical" Width="95">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/key.png" Height="12" Width="12" />
+                        <Label Content="_RegeditKey: " Target="{Binding ElementName=txtRegeditKey}" FontSize="12" />
+                    </StackPanel>
+                    <TextBox Text="ROT" Name="txtRegeditKey" FontSize="12" Padding="2" IsEnabled="{Binding ElementName=ExpertBox1, Path=IsChecked}" />
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" Width="95" Margin="5,0,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/registry.png" Height="12" Width="12" />
+                        <Label Content="_RipValue: " Target="{Binding ElementName=txtRipValue}" FontSize="12" />
+                    </StackPanel>
+                    <TextBox Text="LR" Name="txtRipValue" FontSize="12" Padding="2" IsEnabled="{Binding ElementName=ExpertBox1, Path=IsChecked}" />
+                </StackPanel>
+                
+                <StackPanel Orientation="Vertical" Width="95" Margin="5,0,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/registry.png" Height="12" Width="12" />
+                        <Label Content="_ChopValue: " Target="{Binding ElementName=txtChopValue}" FontSize="12" />
+                    </StackPanel>
+                    <TextBox Text="LC" Name="txtChopValue" FontSize="12" Padding="2" IsEnabled="{Binding ElementName=ExpertBox1, Path=IsChecked}" />
+                </StackPanel>
+            </StackPanel>
+
+
+            <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                <StackPanel Orientation="Vertical" Width="95">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/key.png" Height="12" Width="12" />
+                        <Label Content="_RegeditKey: " Target="{Binding ElementName=txtYieldKey}" FontSize="12" />
+                    </StackPanel>
+                    <TextBox Text="YM" Name="txtYieldKey" FontSize="12" Padding="2" IsEnabled="{Binding ElementName=ExpertBox1, Path=IsChecked}" />
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" Width="95" Margin="5,0,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/registry.png" Height="12" Width="12" />
+                        <Label Content="_RipYield: " Target="{Binding ElementName=txtRipYield}" FontSize="12" />
+                    </StackPanel>
+                    <TextBox Text="W_Y" Name="txtRipYield" FontSize="12" Padding="2" IsEnabled="{Binding ElementName=ExpertBox1, Path=IsChecked}" />
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" Width="95" Margin="5,0,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/registry.png" Height="12" Width="12" />
+                        <Label Content="_ChopYield: " Target="{Binding ElementName=txtChopYield}" FontSize="12" />
+                    </StackPanel>
+                    <TextBox Text="L_Y" Name="txtChopYield" FontSize="12" Padding="2" IsEnabled="{Binding ElementName=ExpertBox1, Path=IsChecked}" />
+                </StackPanel>
+            </StackPanel>
+
+        </StackPanel>
+
+        
+        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal" Margin="0,0,8,8" VerticalAlignment="bottom" HorizontalAlignment="right">
+            <StackPanel VerticalAlignment="Center" Margin="0,0,6,0">
+                <CheckBox Content="ExpertDus" Name="ExpertBox1" IsChecked="False"/>
+            </StackPanel>
+            <Button Name="saveButton" Click="saveButton_Click" MaxWidth="64" MaxHeight="32" Padding="2" Margin="0,0,6,0">Save</Button>
+            <Button Name="cancelButton" IsCancel="True" MaxWidth="64" MaxHeight="32" Padding="2">Cancel</Button>
+        </StackPanel>
+
+    </Grid>
+
+</Window>
