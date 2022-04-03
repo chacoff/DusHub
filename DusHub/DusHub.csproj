@@ -52,4 +52,13 @@
 	<Resource Include="resources/project-launch.png" />  
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="resources\loading.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\luxscan_base.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

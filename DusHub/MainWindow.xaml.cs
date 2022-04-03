@@ -79,7 +79,27 @@ namespace DusHub
         private void Launch_RightClick(object sender, RoutedEventArgs e)
         {
             string folder = GetFullFolder();
-            Debug.WriteLine(folder);
+            var folderSplit = folder.Split('\\', 2);  // to avoid de drive letter
+            string newFolder = folderSplit[1];
+
+            if (newFolder.Substring(0, 1) == "\\")
+            {
+                newFolder = folderSplit[1].Remove(0,1);
+            }
+            
+            string textINI = File.ReadAllText("resources/luxscan_base.ini");
+            textINI = textINI.Replace("__base__", newFolder);
+            File.WriteAllText("resources/luxscan.ini", textINI);
+
+            string loadingBat = ConfigurationManager.AppSettings["BatApp"].ToString();
+            string loadingDir = loadingBat.TrimEnd('\\').Remove(loadingBat.LastIndexOf('\\'));
+            
+            Process proc = new Process();
+            proc.StartInfo.FileName = loadingBat;
+            proc.StartInfo.WorkingDirectory = loadingDir;
+            proc.StartInfo.UseShellExecute = true;
+            proc.StartInfo.Arguments = folder;
+            proc.Start();
         }
 
         private void Rename_RightClick(object sender, RoutedEventArgs e)
