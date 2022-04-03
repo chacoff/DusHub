@@ -7,11 +7,14 @@
         mc:Ignorable="d"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
-        Title="Parameters" Height="370" Width="320" Icon="/hammer.png" ResizeMode="NoResize" BorderThickness="1,1,1,1" UseLayoutRounding="True">
+        Title="Parameters" 
+        Height="375" Width="320" Icon="/hammer.png" 
+        ResizeMode="NoResize" BorderThickness="1,1,1,1" UseLayoutRounding="True">
+
     <Grid>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -25,20 +28,30 @@
             <Label Content="Parameters: " FontSize="16" />
         </StackPanel>
 
-        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Vertical" Margin="10,0,10,0">
+        <StackPanel Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" Orientation="Vertical" Margin="10,0,10,0">
 
-            <StackPanel Orientation="Horizontal">
-                <Image Source="/folderY.png" Height="12" Width="12" />
-                <Label Content="_LookUpFolder: " Target="{Binding ElementName=txtLufBox}" FontSize="12" />
+            <StackPanel Orientation="Vertical" >
+                <StackPanel Orientation="Horizontal" >
+                    <Image Source="/folderY.png" Height="12" Width="12" />
+                    <Label Content="_LookUpFolder: " Target="{Binding ElementName=txtLufBox}" FontSize="12" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" >
+                    <TextBox Text="D:/" Width="245" Name="txtLufBox" FontSize="12" Padding="2" IsReadOnly="True" />
+                    <Button Content=" select " Name="btnOpenFolderDialog" Click="btnOpenFolderDialog_Click" />
+                </StackPanel>
             </StackPanel>
-            <TextBox Text="D:/" Name="txtLufBox" FontSize="12" Padding="2"/>
 
-            <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+            <StackPanel Orientation="Vertical" >
+                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
                 <Image Source="/file.png" Height="12" Width="12" />
                 <Label Content="_BatchFileTarget: " Target="{Binding ElementName=txtTarget}" FontSize="12" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" >
+                    <TextBox Text="Launcher.bat" Width="245" Name="txtTarget" FontSize="12" Padding="2" IsReadOnly="True" />
+                    <Button Content=" select " Name="btnOpenBatDialog" Click="btnOpenBatDialog_Click" />
+                </StackPanel>
             </StackPanel>
-            <TextBox Text="Launcher.bat" Name="txtTarget" FontSize="12" Padding="2"/>
-
+            
             <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
                 <Image Source="/encryption.png" Height="12" Width="12" />
                 <Label Content="_RegeditAddress: " Target="{Binding ElementName=txtRegedit}" FontSize="12" />
@@ -102,7 +115,7 @@
 
         
         <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal" Margin="0,0,8,8" VerticalAlignment="bottom" HorizontalAlignment="right">
-            <StackPanel VerticalAlignment="Center" Margin="0,0,6,0">
+            <StackPanel VerticalAlignment="Center" Margin="0,0,8,0">
                 <CheckBox Content="ExpertDus" Name="ExpertBox1" IsChecked="False"/>
             </StackPanel>
             <Button Name="saveButton" Click="saveButton_Click" MaxWidth="64" MaxHeight="32" Padding="2" Margin="0,0,6,0">Save</Button>

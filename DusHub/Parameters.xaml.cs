@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
 using System.Windows;
+using System.Windows.Forms;
+using System.IO;
 using System.Diagnostics;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -28,6 +30,46 @@ namespace DusHub
             InitializeComponent();
             Load_Parameters();
             this.parent = parent;
+        }
+
+        private void btnOpenFolderDialog_Click(object sender, RoutedEventArgs e)
+        {
+            FolderBrowserDialog openFileDlg = new FolderBrowserDialog();
+            var result = openFileDlg.ShowDialog();
+            if (result.ToString() != string.Empty)
+            {
+                txtLufBox.Text = openFileDlg.SelectedPath;
+            }
+        }
+
+        private void btnOpenBatDialog_Click(object sender, RoutedEventArgs e)
+        {
+            var fileContent = string.Empty;
+            var filePath = string.Empty;
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = "c:\\";
+                openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+                openFileDialog.FilterIndex = 2;
+                openFileDialog.RestoreDirectory = true;
+
+                if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    txtTarget.Text = openFileDialog.FileName;
+                    //filePath = openFileDialog.FileName;
+                    
+                    //var fileStream = openFileDialog.OpenFile();
+
+                    //using (StreamReader reader = new StreamReader(fileStream))
+                    //{
+                    //    fileContent = reader.ReadToEnd();
+                    //}
+                }
+            }
+
+            //System.Windows.Forms.MessageBox.Show(fileContent, "File Content at path: " + filePath, MessageBoxButtons.OK);
+
         }
 
         private void saveButton_Click(object sender, RoutedEventArgs e)

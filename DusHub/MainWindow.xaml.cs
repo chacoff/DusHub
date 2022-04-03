@@ -42,26 +42,30 @@ namespace DusHub
         {
             var appSet = ConfigurationManager.AppSettings;
             string Luf = appSet["LufApp"].ToString();
-            string[] splitLuf = Luf.Split('/');
+            string[] splitLuf = Luf.Split('\\');
             List<Data2Grid> paths = new List<Data2Grid>();
             DirectoryInfo[]? fileDir;
 
             if (Directory.Exists(Luf))
             {
                 fileDir = new DirectoryInfo(Luf).GetDirectories();
-                    if (splitLuf.Length > 3)
+                    if (splitLuf.Length > 2)
                     {
-                        txtLuf.Content = splitLuf[0] + "/ ... /" + splitLuf[^2] + "/" + splitLuf[^1];
+                        txtLuf.Content = "...\\" + splitLuf[^1];
                     }
                     else
                     {
                         txtLuf.Content = Luf;
                     }
+                txtLog.Content = "OK";
+                txtLog.Foreground = new SolidColorBrush(Color.FromRgb(0, 132, 0));
             }
             else
             {
                 fileDir = new DirectoryInfo(@"c:\").GetDirectories();
                 txtLuf.Content = @"C:\";
+                txtLog.Content = "Error";
+                txtLog.Foreground = new SolidColorBrush(Color.FromRgb(160, 0, 5));
             }
             
             foreach (var fi in fileDir)
@@ -82,7 +86,7 @@ namespace DusHub
 
         private void params_Click(object sender, RoutedEventArgs e)
         {
-            Parameters win2 = new(this);
+            Parameters win2 = new Parameters(this);
             win2.ShowDialog();
         }
 
