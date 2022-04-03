@@ -36,48 +36,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="control.png" />
-    <None Remove="cpu.png" />
-    <None Remove="encryption.png" />
-    <None Remove="eye.png" />
-    <None Remove="file.png" />
-    <None Remove="folder.png" />
-    <None Remove="folderY.png" />
-    <None Remove="google-analytics.png" />
-    <None Remove="google-forms.png" />
-    <None Remove="hammer.png" />
-    <None Remove="key.png" />
-    <None Remove="lamp.png" />
-    <None Remove="man.ico" />
-    <None Remove="man.png" />
-    <None Remove="registry.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="resources\man.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="encryption.png" />
-    <Resource Include="eye.png" />
-    <Resource Include="file.png" />
-    <Resource Include="folder.png" />
-    <Resource Include="folderY.png" />
-    <Resource Include="hammer.png" />
-    <Resource Include="key.png" />
-    <Resource Include="lamp.png" />
-    <Resource Include="man.ico" />
-    <Resource Include="man.png" />
-    <Resource Include="registry.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="resources\control.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\cpu.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
+    <Resource Include="resources/encryption.png" />
+    <Resource Include="resources/eye.png" />
+    <Resource Include="resources/file.png" />
+    <Resource Include="resources/folder.png" />
+    <Resource Include="resources/folderY.png" />
+    <Resource Include="resources/hammer.png" />
+    <Resource Include="resources/key.png" />
+    <Resource Include="resources/lamp.png" />
+    <Resource Include="resources/man.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources/man.png" />
+    <Resource Include="resources/registry.png" />
+	<Resource Include="resources/project-launch.png" />  
   </ItemGroup>
 
 </Project>

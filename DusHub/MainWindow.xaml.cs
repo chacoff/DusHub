@@ -76,18 +76,37 @@ namespace DusHub
             MainGrid.ItemsSource = paths;
         }
 
-        private void Grid_RightClick(object sender, RoutedEventArgs e)
+        private void Launch_RightClick(object sender, RoutedEventArgs e)
+        {
+            string folder = GetFullFolder();
+            Debug.WriteLine(folder);
+        }
+
+        private void Rename_RightClick(object sender, RoutedEventArgs e)
+        {
+            string folder = GetFullFolder();
+            Debug.WriteLine(folder);
+        }
+
+        private void Pattern_RightClick(object sender, RoutedEventArgs e)
         {
             //
-            var cellInfo = MainGrid.SelectedCells[0];
-            var cell = cellInfo.Column.GetCellContent(cellInfo.Item) as TextBlock;
-            Debug.WriteLine(cell.Text);
         }
 
         private void params_Click(object sender, RoutedEventArgs e)
         {
             Parameters win2 = new Parameters(this);
             win2.ShowDialog();
+        }
+
+        public string GetFullFolder()
+        {
+            string Luf = ConfigurationManager.AppSettings["LufApp"].ToString();
+            var cellInfo = MainGrid.SelectedCells[0];
+            var cell = cellInfo.Column.GetCellContent(cellInfo.Item) as TextBlock;
+            string result = Luf + "\\" + cell.Text;
+
+            return result;
         }
 
         private void Rip_Checked(object sender, RoutedEventArgs e)

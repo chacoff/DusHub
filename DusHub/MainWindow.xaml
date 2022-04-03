@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:DusHub"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="DusHub" Height="470" Width="400" Icon="/man.ico" ResizeMode="NoResize" >
+        Title="DusHub" Height="470" Width="400" Icon="/resources/man.ico" ResizeMode="NoResize" >
 
     <Grid ShowGridLines="False">
         <Grid.ColumnDefinitions>
@@ -20,36 +20,53 @@
 
         <DataGrid x:Name="MainGrid" AutoGenerateColumns="False" Grid.Column="0" Grid.Row="0"
                   Margin="5,10,5,5" FontSize="13" RowHeight="24" Background="White" 
-                  RowBackground="#eeeeee" AlternatingRowBackground="white" 
                   HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible"
                   SelectionMode="Single" SelectionUnit="Cell">
+            <!--RowBackground="#eeeeee" AlternatingRowBackground="white"-->
+            <DataGrid.Resources>
+                <Style TargetType="DataGridCell">
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="#0059b3" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTextColumn MinWidth="210" MaxWidth="210" IsReadOnly="True" Binding="{Binding Name}" Header="Name"/>
                 <DataGridTextColumn MinWidth="138" MaxWidth="138" IsReadOnly="True" Binding="{Binding LastWriteTime}" Header="LastWriteTime"/>
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Launch" Name="RightClickLaunch" Click="Grid_RightClick" />
-                    <!--MenuItem Header="Pattern" Click="Grid_RightClick" /-->
+                    <MenuItem Header="Launch" Name="RightClickLaunch" Click="Launch_RightClick" >
+                        <MenuItem.Icon>
+                            <Image Source="resources/project-launch.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Settings" Click="params_Click" >
+                        <MenuItem.Icon>
+                            <Image Source="resources/hammer.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
 
         <StackPanel Grid.Column="0" Grid.Row="1" Margin="0,0,2,2" Orientation="Horizontal" VerticalAlignment="bottom" HorizontalAlignment="right" >
             <Label  Content="J. 2022"  FontSize="8"  Margin="0,0,-3,0"/>
-            <Image Source="/lamp.png" Height="10" Width="10" Margin="0,0,0,2"/>
+            <Image Source="resources/lamp.png" Height="10" Width="10" Margin="0,0,0,2"/>
         </StackPanel>
         
         <StackPanel Grid.Column="0" Grid.Row="1" Margin="10,0,0,0" Orientation="Horizontal" VerticalAlignment="Center" >
 
             <StackPanel Orientation="Vertical" Width="170" Background="GhostWhite" >
                 <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
-                    <Image Source="/folder.png" Height="14" Width="14" />
+                    <Image Source="resources/folder.png" Height="14" Width="14" />
                     <Label Content="current folder:"  Name="staticLuf" FontSize="12" FontWeight="Bold" />
                     <Label x:Name="txtLog" Content="status" Foreground="green" FontSize="12" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5,-6,5,0">
-                    <Image Source="/eye.png" Height="18" Width="18" />
+                    <Image Source="resources/eye.png" Height="18" Width="18" />
                     <Label Content="D:/Opticores/"  Name="txtLuf" FontSize="16"  />
                 </StackPanel>
             </StackPanel>
@@ -60,8 +77,8 @@
 
                 <Button Click="params_Click" BorderBrush="Transparent" Background="Transparent" HorizontalContentAlignment="Left" >
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/hammer.png" Height="16" Width="16" />
-                        <Label Content="Parameters" FontSize="13"/>
+                        <Image Source="resources/hammer.png" Height="16" Width="16" />
+                        <Label Content="Settings" FontSize="13"/>
                     </StackPanel>
                 </Button>
             </StackPanel>
