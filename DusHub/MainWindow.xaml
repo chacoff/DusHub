@@ -56,7 +56,7 @@
             <Label  Content="J. 2022"  FontSize="8"  Margin="0,0,-3,0"/>
             <Image Source="resources/lamp.png" Height="10" Width="10" Margin="0,0,0,2"/>
         </StackPanel>
-        
+
         <StackPanel Grid.Column="0" Grid.Row="1" Margin="10,0,0,0" Orientation="Horizontal" VerticalAlignment="Center" >
 
             <StackPanel Orientation="Vertical" Width="170" Background="GhostWhite" >
@@ -70,7 +70,7 @@
                     <Label Content="D:/Opticores/"  Name="txtLuf" FontSize="16"  />
                 </StackPanel>
             </StackPanel>
-            
+
             <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="15,0,0,0" >
                 <CheckBox Content="Ripscan" Name="Rip" IsChecked="False" IsThreeState="False"  
                 Checked="Rip_Checked" Unchecked="Rip_Unchecked" FontSize="13" Margin="1,0,0,0" HorizontalContentAlignment="Left" />
@@ -82,7 +82,7 @@
                     </StackPanel>
                 </Button>
             </StackPanel>
-            
+
         </StackPanel>
 
     </Grid>
