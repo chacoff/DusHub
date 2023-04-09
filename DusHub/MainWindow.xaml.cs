@@ -31,32 +31,28 @@ namespace DusHub
             FillGrid();
         }
 
-        public class Data2Grid
-        {
-            public string? Name { get; set; }
-
-            public string? LastWriteTime { get; set; }
-        }
-
         public void FillGrid()
         {
             var appSet = ConfigurationManager.AppSettings;
             string Luf = appSet["LufApp"].ToString();
             string[] splitLuf = Luf.Split('\\');
+
             List<Data2Grid> paths = new List<Data2Grid>();
             DirectoryInfo[]? fileDir;
 
             if (Directory.Exists(Luf))
             {
                 fileDir = new DirectoryInfo(Luf).GetDirectories();
-                    if (splitLuf.Length > 2)
-                    {
-                        txtLuf.Content = "...\\" + splitLuf[^1];
-                    }
-                    else
-                    {
-                        txtLuf.Content = Luf;
-                    }
+                // fileDir = Directory.GetDirectories(Luf).Contains(System.IO.Path.Combine(Luf, "Test_Folder"));
+
+                if (splitLuf.Length > 2)
+                {
+                    txtLuf.Content = "...\\" + splitLuf[^1];
+                }
+                else
+                {
+                    txtLuf.Content = Luf;
+                }
                 txtLog.Content = "OK";
                 txtLog.Foreground = new SolidColorBrush(Color.FromRgb(0, 132, 0));
             }
@@ -67,10 +63,10 @@ namespace DusHub
                 txtLog.Content = "Error";
                 txtLog.Foreground = new SolidColorBrush(Color.FromRgb(160, 0, 5));
             }
-            
+
             foreach (var fi in fileDir)
             {
-                paths.Add(new Data2Grid { Name = fi.Name, LastWriteTime = fi.LastWriteTime.ToString()});
+                paths.Add(new Data2Grid { Name = fi.Name, LastWriteTime = fi.LastWriteTime.ToString() });
             }
 
             MainGrid.ItemsSource = paths;
@@ -129,22 +125,20 @@ namespace DusHub
             return result;
         }
 
+
+        #region RegeditHelpers
         private void Rip_Checked(object sender, RoutedEventArgs e)
         {
             var appSet = ConfigurationManager.AppSettings;
 
             Rip.Content = "Ripscan (uncheck for Chop)";
+            RegistryKey _localKey = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.CurrentUser, RegistryView.Registry64); // RegistryView.Registry32
+            var localreg = _localKey.OpenSubKey(appSet["RegeditApp"], true);
 
-            RegistryKey localKey = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.CurrentUser, RegistryView.Registry64); // RegistryView.Registry32
-            localKey = localKey.OpenSubKey(appSet["RegeditApp"], true);
-            
-            if (localKey != null)
-            {
-                localKey.SetValue(appSet["KeyValueApp"], appSet["RipValueApp"]);
-                localKey.SetValue(appSet["KeyYieldApp"], appSet["RipYieldApp"]);
-            }
-
-            localKey.Close();
+            localreg ??= _localKey.CreateSubKey(appSet["RegeditApp"]);
+            localreg.SetValue(appSet["KeyValueApp"], appSet["RipValueApp"]);
+            localreg.SetValue(appSet["KeyYieldApp"], appSet["RipYieldApp"]);
+            localreg.Close();
         }
 
         private void Rip_Unchecked(object sender, RoutedEventArgs e)
@@ -152,17 +146,14 @@ namespace DusHub
             var appSet = ConfigurationManager.AppSettings;
 
             Rip.Content = "Ripscan";
+            RegistryKey _localKey = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.CurrentUser, RegistryView.Registry64); // RegistryView.Registry32
+            var localreg = _localKey.OpenSubKey(appSet["RegeditApp"], true);
 
-            RegistryKey localKey = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.CurrentUser, RegistryView.Registry64); // RegistryView.Registry32
-            localKey = localKey.OpenSubKey(appSet["RegeditApp"], true);
-
-            if (localKey != null)
-            {
-                localKey.SetValue(appSet["KeyValueApp"], appSet["ChopValueApp"]);
-                localKey.SetValue(appSet["KeyYieldApp"], appSet["ChopYieldApp"]);
-            }
-
-            localKey.Close();
+            localreg ??= _localKey.CreateSubKey(appSet["RegeditApp"]);
+            localreg.SetValue(appSet["KeyValueApp"], appSet["ChopValueApp"]);
+            localreg.SetValue(appSet["KeyYieldApp"], appSet["ChopYieldApp"]);
+            localreg.Close();
         }
+        #endregion
     }
 }

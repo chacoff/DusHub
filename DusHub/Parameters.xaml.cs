@@ -50,8 +50,8 @@ namespace DusHub
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.InitialDirectory = "c:\\";
-                openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-                openFileDialog.FilterIndex = 2;
+                openFileDialog.Filter = "Batch files (*.bat)|*.bat|Text files (*.txt)|*.txt|All files (*.*)|*.*";
+                // openFileDialog.FilterIndex = 0;
                 openFileDialog.RestoreDirectory = true;
 
                 if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
