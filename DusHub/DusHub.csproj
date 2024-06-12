@@ -36,6 +36,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="resources\dark.png" />
+    <None Remove="resources\light.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="resources/encryption.png" />
     <Resource Include="resources/eye.png" />
     <Resource Include="resources/file.png" />
@@ -49,7 +54,9 @@
     </Resource>
     <Resource Include="resources/man.png" />
     <Resource Include="resources/registry.png" />
-	<Resource Include="resources/project-launch.png" />  
+	<Resource Include="resources/project-launch.png" />
+	<Resource Include="resources\dark.png" />
+	<Resource Include="resources\light.png" />  
   </ItemGroup>
 
   <ItemGroup>

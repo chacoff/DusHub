@@ -26,6 +26,7 @@ namespace DusHub
     public partial class MainWindow : Window
     {
 
+        private bool isDarkMode = false;
         private readonly RegistryHandler _registryHandler;
         public ICommand CloseCommand { get; private set; }
 
@@ -152,7 +153,20 @@ namespace DusHub
             }
         }
 
-        private void SwitchToDarkMode(object sender, RoutedEventArgs e)
+        private void ToggleTheme(object sender, RoutedEventArgs e)
+        {
+            if (isDarkMode)
+            {
+                SwitchToLightMode();
+            }
+            else
+            {
+                SwitchToDarkMode();
+            }
+            isDarkMode = !isDarkMode;
+        }
+
+        private void SwitchToDarkMode()
         {
             ResourceDictionary darkTheme = new ResourceDictionary
             {
@@ -166,9 +180,11 @@ namespace DusHub
                 Source = new Uri("Themes/WindowStyle.xaml", UriKind.Relative)
             };
             Application.Current.Resources.MergedDictionaries.Add(windowStyle);
+
+            ThemeToggleIcon.Source = new BitmapImage(new Uri("resources/light.png", UriKind.Relative));
         }
 
-        private void SwitchToLightMode(object sender, RoutedEventArgs e)
+        private void SwitchToLightMode()
         {
             ResourceDictionary lightTheme = new ResourceDictionary
             {
@@ -182,6 +198,8 @@ namespace DusHub
                 Source = new Uri("Themes/WindowStyle.xaml", UriKind.Relative)
             };
             Application.Current.Resources.MergedDictionaries.Add(windowStyle);
+
+            ThemeToggleIcon.Source = new BitmapImage(new Uri("resources/dark.png", UriKind.Relative));
         }
 
         private void CloseWindow(object sender, RoutedEventArgs e)
