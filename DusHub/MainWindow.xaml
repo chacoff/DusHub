@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:DusHub"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="DusHub" Height="470" Width="400" Icon="/resources/man.ico" ResizeMode="NoResize" >
+        Title="DusHub" Height="470" Width="400" Icon="/resources/man.ico" ResizeMode="NoResize" 
+        Style="{StaticResource CustomWindowStyle}">
 
     <Grid ShowGridLines="False">
         <Grid.ColumnDefinitions>
@@ -53,13 +54,13 @@
         </DataGrid>
 
         <StackPanel Grid.Column="0" Grid.Row="1" Margin="0,0,2,2" Orientation="Horizontal" VerticalAlignment="bottom" HorizontalAlignment="right" >
-            <Label  Content="J. 2023"  FontSize="8"  Margin="0,0,-3,0"/>
+            <Label  Content="J. 2024"  FontSize="8"  Margin="0,0,-3,0"/>
             <Image Source="resources/lamp.png" Height="10" Width="10" Margin="0,0,0,2"/>
         </StackPanel>
 
         <StackPanel Grid.Column="0" Grid.Row="1" Margin="10,0,0,0" Orientation="Horizontal" VerticalAlignment="Center" >
 
-            <StackPanel Orientation="Vertical" Width="170" Background="GhostWhite" >
+            <StackPanel Orientation="Vertical" Width="170"> <!-- Background="GhostWhite" -->
                 <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
                     <Image Source="resources/folder.png" Height="14" Width="14" />
                     <Label Content="current folder:"  Name="staticLuf" FontSize="12" FontWeight="Bold" />
@@ -83,6 +84,11 @@
                 </Button>
             </StackPanel>
 
+        </StackPanel>
+
+        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10" Background="{StaticResource BackgroundBrush}">
+            <Button Content="Light Mode" Click="SwitchToLightMode" Margin="5"/>
+            <Button Content="Dark Mode" Click="SwitchToDarkMode" Margin="5"/>
         </StackPanel>
 
     </Grid>

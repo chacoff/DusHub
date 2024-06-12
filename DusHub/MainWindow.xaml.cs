@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static DusHub.MainWindow;
 
 namespace DusHub
 {
@@ -24,11 +25,21 @@ namespace DusHub
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        private readonly RegistryHandler _registryHandler;
+        public ICommand CloseCommand { get; private set; }
+
         public MainWindow()
         {
             
             InitializeComponent();
+            
             FillGrid();
+            
+            _registryHandler = new RegistryHandler();
+
+            CloseCommand = new RelayCommand(_ => this.Close());
+            this.DataContext = this;
         }
 
         public void FillGrid()
@@ -125,35 +136,90 @@ namespace DusHub
             return result;
         }
 
-
-        #region RegeditHelpers
         private void Rip_Checked(object sender, RoutedEventArgs e)
         {
-            var appSet = ConfigurationManager.AppSettings;
-
-            Rip.Content = "Ripscan (uncheck for Chop)";
-            RegistryKey _localKey = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.CurrentUser, RegistryView.Registry64); // RegistryView.Registry32
-            var localreg = _localKey.OpenSubKey(appSet["RegeditApp"], true);
-
-            localreg ??= _localKey.CreateSubKey(appSet["RegeditApp"]);
-            localreg.SetValue(appSet["KeyValueApp"], appSet["RipValueApp"]);
-            localreg.SetValue(appSet["KeyYieldApp"], appSet["RipYieldApp"]);
-            localreg.Close();
+            if (sender is CheckBox Rip)
+            {
+                _registryHandler.Rip_Checked(Rip);
+            }
         }
 
         private void Rip_Unchecked(object sender, RoutedEventArgs e)
         {
-            var appSet = ConfigurationManager.AppSettings;
-
-            Rip.Content = "Ripscan";
-            RegistryKey _localKey = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.CurrentUser, RegistryView.Registry64); // RegistryView.Registry32
-            var localreg = _localKey.OpenSubKey(appSet["RegeditApp"], true);
-
-            localreg ??= _localKey.CreateSubKey(appSet["RegeditApp"]);
-            localreg.SetValue(appSet["KeyValueApp"], appSet["ChopValueApp"]);
-            localreg.SetValue(appSet["KeyYieldApp"], appSet["ChopYieldApp"]);
-            localreg.Close();
+            if (sender is CheckBox Rip)
+            {
+                _registryHandler.Rip_Unchecked(Rip);
+            }
         }
-        #endregion
+
+        private void SwitchToDarkMode(object sender, RoutedEventArgs e)
+        {
+            ResourceDictionary darkTheme = new ResourceDictionary
+            {
+                Source = new Uri("Themes/DarkTheme.xaml", UriKind.Relative)
+            };
+            Application.Current.Resources.MergedDictionaries.Clear();
+            Application.Current.Resources.MergedDictionaries.Add(darkTheme);
+
+            ResourceDictionary windowStyle = new ResourceDictionary
+            {
+                Source = new Uri("Themes/WindowStyle.xaml", UriKind.Relative)
+            };
+            Application.Current.Resources.MergedDictionaries.Add(windowStyle);
+        }
+
+        private void SwitchToLightMode(object sender, RoutedEventArgs e)
+        {
+            ResourceDictionary lightTheme = new ResourceDictionary
+            {
+                Source = new Uri("Themes/LightTheme.xaml", UriKind.Relative)
+            };
+            Application.Current.Resources.MergedDictionaries.Clear();
+            Application.Current.Resources.MergedDictionaries.Add(lightTheme);
+
+            ResourceDictionary windowStyle = new ResourceDictionary
+            {
+                Source = new Uri("Themes/WindowStyle.xaml", UriKind.Relative)
+            };
+            Application.Current.Resources.MergedDictionaries.Add(windowStyle);
+        }
+
+        private void CloseWindow(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+    }
+
+    public class RelayCommand : ICommand
+    {
+        private readonly Action<object> _execute;
+        private readonly Predicate<object> _canExecute;
+
+        public RelayCommand(Action<object> execute) : this(execute, null)
+        {
+        }
+
+        public RelayCommand(Action<object> execute, Predicate<object> canExecute)
+        {
+            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+            _canExecute = canExecute;
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return _canExecute == null || _canExecute(parameter);
+        }
+
+        public void Execute(object parameter)
+        {
+            _execute(parameter);
+        }
+
+        public event EventHandler CanExecuteChanged
+        {
+            add => CommandManager.RequerySuggested += value;
+            remove => CommandManager.RequerySuggested -= value;
+        }
     }
 }
