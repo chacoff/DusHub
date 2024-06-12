@@ -6,44 +6,93 @@
         xmlns:local="clr-namespace:DusHub"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="DusHub" Height="470" Width="400" Icon="/resources/man.ico" ResizeMode="NoResize" >
-
+        Title="DusHub" Height="602" Width="402" Icon="/resources/man.ico" ResizeMode="NoResize" 
+        Style="{StaticResource CustomWindowStyle}">
+    
+    <Window.Resources>
+        <Style x:Key="GreenBoldTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#5fb4fa"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+    </Window.Resources>
+    
     <Grid ShowGridLines="False">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="0.07*" />
             <RowDefinition Height="1*" />
             <RowDefinition Height="0.18*" />
         </Grid.RowDefinitions>
 
-        <DataGrid x:Name="MainGrid" AutoGenerateColumns="False" Grid.Column="0" Grid.Row="0"
-                  Margin="5,10,5,5" FontSize="13" RowHeight="24" Background="White" 
-                  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible"
-                  SelectionMode="Single" SelectionUnit="Cell">
-            <!--RowBackground="#eeeeee" AlternatingRowBackground="white"-->
+        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,0">
+            <TextBlock Text="DusHub" VerticalAlignment="Center" Margin="15,0,5,0" Style="{StaticResource GreenBoldTextStyle}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,15,0">
+            <Button Name="ThemeToggleButton" Click="ThemeToggleButton_Click" Margin="0,0,8,0">
+                <Image Name="ThemeToggleIcon" Source="resources/light.png" Width="16" Height="16"/>
+            </Button>
+            <Button Name="CloseButton" Click="CloseWindow_Click">
+                <Image Name="ThemeCloseIcon" Source="resources/cross.png" Width="16" Height="16"/>
+            </Button>
+        </StackPanel>
+
+        <DataGrid x:Name="MainGrid" 
+                  AutoGenerateColumns="False" 
+                  Grid.Column="0" 
+                  Grid.Row="1"
+                  Margin="15,1,15,2" FontSize="12" RowHeight="24"
+                  HorizontalScrollBarVisibility="Disabled" 
+                  VerticalScrollBarVisibility="Hidden"
+                  SelectionMode="Single" SelectionUnit="Cell" 
+                  HeadersVisibility="Column" 
+                  GridLinesVisibility="None" 
+                  BorderThickness="1" 
+                  Background="Transparent" 
+                  CanUserResizeRows="False"
+                  CanUserResizeColumns="False"
+                  CanUserSortColumns="False">
+
             <DataGrid.Resources>
+                <!-- Cell Style -->
                 <Style TargetType="DataGridCell">
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Padding" Value="5,0,5,0"/>
                     <Style.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background" Value="#0059b3" />
+                            <Setter Property="Foreground" Value="White"/>
                         </Trigger>
                     </Style.Triggers>
                 </Style>
+
+                <!-- Column Header Style -->
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="5"/>
+                    <Setter Property="Padding" Value="5,2,5,2"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
             </DataGrid.Resources>
+
             <DataGrid.Columns>
-                <DataGridTextColumn MinWidth="210" MaxWidth="210" IsReadOnly="True" Binding="{Binding Name}" Header="Name"/>
+                <DataGridTextColumn MinWidth="248" MaxWidth="248" IsReadOnly="True" Binding="{Binding Name}" Header="Name"/>
                 <DataGridTextColumn MinWidth="138" MaxWidth="138" IsReadOnly="True" Binding="{Binding LastWriteTime}" Header="LastWriteTime"/>
             </DataGrid.Columns>
+
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Launch" Name="RightClickLaunch" Click="Launch_RightClick" >
+                    <MenuItem Header="Launch" Name="RightClickLaunch" Click="Launch_RightClick">
                         <MenuItem.Icon>
                             <Image Source="resources/project-launch.png" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Header="Settings" Click="params_Click" >
+                    <MenuItem Header="Settings" Click="params_Click">
                         <MenuItem.Icon>
                             <Image Source="resources/hammer.png" />
                         </MenuItem.Icon>
@@ -52,14 +101,16 @@
             </DataGrid.ContextMenu>
         </DataGrid>
 
-        <StackPanel Grid.Column="0" Grid.Row="1" Margin="0,0,2,2" Orientation="Horizontal" VerticalAlignment="bottom" HorizontalAlignment="right" >
-            <Label  Content="J. 2023"  FontSize="8"  Margin="0,0,-3,0"/>
-            <Image Source="resources/lamp.png" Height="10" Width="10" Margin="0,0,0,2"/>
+
+        <StackPanel Grid.Column="0" Grid.Row="2" Margin="0,0,2,2" Orientation="Horizontal" VerticalAlignment="bottom" HorizontalAlignment="right" >
+            <Label  Content="J. 2024"  FontSize="8"  Margin="0,0,0,0"/>
+            <Image Source="resources/lamp.png" Height="10" Width="10" Margin="0,0,2,2"/>
         </StackPanel>
 
-        <StackPanel Grid.Column="0" Grid.Row="1" Margin="10,0,0,0" Orientation="Horizontal" VerticalAlignment="Center" >
+        <StackPanel Grid.Column="0" Grid.Row="2" Margin="10,0,0,0" Orientation="Horizontal" VerticalAlignment="Center" >
 
-            <StackPanel Orientation="Vertical" Width="170" Background="GhostWhite" >
+            <StackPanel Orientation="Vertical" Width="170">
+                <!-- Background="GhostWhite" -->
                 <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
                     <Image Source="resources/folder.png" Height="14" Width="14" />
                     <Label Content="current folder:"  Name="staticLuf" FontSize="12" FontWeight="Bold" />
@@ -71,7 +122,7 @@
                 </StackPanel>
             </StackPanel>
 
-            <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="15,0,0,0" >
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="37,5,0,0" >
                 <CheckBox Content="Ripscan" Name="Rip" IsChecked="False" IsThreeState="False"  
                 Checked="Rip_Checked" Unchecked="Rip_Unchecked" FontSize="13" Margin="1,0,0,0" HorizontalContentAlignment="Left" />
 
@@ -84,6 +135,5 @@
             </StackPanel>
 
         </StackPanel>
-
     </Grid>
 </Window>

@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static DusHub.MainWindow;
 
 namespace DusHub
 {
@@ -24,11 +25,26 @@ namespace DusHub
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        private bool isDarkTheme = true;
+        private readonly RegistryHandler _registryHandler;
+
         public MainWindow()
         {
             
             InitializeComponent();
+            
             FillGrid();
+            
+            SwitchTheme();
+
+            _registryHandler = new RegistryHandler();
+
+        }
+
+        public void CloseWindow_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
 
         public void FillGrid()
@@ -125,35 +141,46 @@ namespace DusHub
             return result;
         }
 
-
-        #region RegeditHelpers
         private void Rip_Checked(object sender, RoutedEventArgs e)
         {
-            var appSet = ConfigurationManager.AppSettings;
-
-            Rip.Content = "Ripscan (uncheck for Chop)";
-            RegistryKey _localKey = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.CurrentUser, RegistryView.Registry64); // RegistryView.Registry32
-            var localreg = _localKey.OpenSubKey(appSet["RegeditApp"], true);
-
-            localreg ??= _localKey.CreateSubKey(appSet["RegeditApp"]);
-            localreg.SetValue(appSet["KeyValueApp"], appSet["RipValueApp"]);
-            localreg.SetValue(appSet["KeyYieldApp"], appSet["RipYieldApp"]);
-            localreg.Close();
+            if (sender is CheckBox Rip)
+            {
+                _registryHandler.Rip_Checked(Rip);
+            }
         }
 
         private void Rip_Unchecked(object sender, RoutedEventArgs e)
         {
-            var appSet = ConfigurationManager.AppSettings;
-
-            Rip.Content = "Ripscan";
-            RegistryKey _localKey = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.CurrentUser, RegistryView.Registry64); // RegistryView.Registry32
-            var localreg = _localKey.OpenSubKey(appSet["RegeditApp"], true);
-
-            localreg ??= _localKey.CreateSubKey(appSet["RegeditApp"]);
-            localreg.SetValue(appSet["KeyValueApp"], appSet["ChopValueApp"]);
-            localreg.SetValue(appSet["KeyYieldApp"], appSet["ChopYieldApp"]);
-            localreg.Close();
+            if (sender is CheckBox Rip)
+            {
+                _registryHandler.Rip_Unchecked(Rip);
+            }
         }
-        #endregion
+
+        private void SwitchTheme()
+        {
+            var theme = isDarkTheme ? "Themes/DarkTheme.xaml" : "Themes/LightTheme.xaml";
+
+            if (!isDarkTheme)
+            {
+                ThemeToggleIcon.Source = new BitmapImage(new Uri("resources/light.png", UriKind.Relative));
+            }
+            else
+            {
+                ThemeToggleIcon.Source = new BitmapImage(new Uri("resources/dark.png", UriKind.Relative));
+            }
+
+            ResourceDictionary newTheme = new ResourceDictionary() { Source = new Uri(theme, UriKind.Relative) };
+
+            Application.Current.Resources.MergedDictionaries.Clear();
+            Application.Current.Resources.MergedDictionaries.Add(newTheme);
+
+            isDarkTheme = !isDarkTheme;
+        }
+
+        private void ThemeToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            SwitchTheme();
+        }
     }
 }
