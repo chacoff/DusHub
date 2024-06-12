@@ -26,9 +26,8 @@ namespace DusHub
     public partial class MainWindow : Window
     {
 
-        private bool isDarkMode = false;
+        private bool isDarkTheme = true;
         private readonly RegistryHandler _registryHandler;
-        public ICommand CloseCommand { get; private set; }
 
         public MainWindow()
         {
@@ -37,10 +36,10 @@ namespace DusHub
             
             FillGrid();
             
+            SwitchTheme();
+
             _registryHandler = new RegistryHandler();
 
-            CloseCommand = new RelayCommand(_ => this.Close());
-            this.DataContext = this;
         }
 
         public void FillGrid()
@@ -153,91 +152,64 @@ namespace DusHub
             }
         }
 
-        private void ToggleTheme(object sender, RoutedEventArgs e)
+        private void SwitchTheme()
         {
-            if (isDarkMode)
+            var theme = isDarkTheme ? "Themes/DarkTheme.xaml" : "Themes/LightTheme.xaml";
+
+            if (!isDarkTheme)
             {
-                SwitchToLightMode();
+                ThemeToggleIcon.Source = new BitmapImage(new Uri("resources/light.png", UriKind.Relative));
             }
             else
             {
-                SwitchToDarkMode();
+                ThemeToggleIcon.Source = new BitmapImage(new Uri("resources/dark.png", UriKind.Relative));
             }
-            isDarkMode = !isDarkMode;
-        }
 
-        private void SwitchToDarkMode()
-        {
-            ResourceDictionary darkTheme = new ResourceDictionary
-            {
-                Source = new Uri("Themes/DarkTheme.xaml", UriKind.Relative)
-            };
+            ResourceDictionary newTheme = new ResourceDictionary() { Source = new Uri(theme, UriKind.Relative) };
+
             Application.Current.Resources.MergedDictionaries.Clear();
-            Application.Current.Resources.MergedDictionaries.Add(darkTheme);
+            Application.Current.Resources.MergedDictionaries.Add(newTheme);
 
-            ResourceDictionary windowStyle = new ResourceDictionary
-            {
-                Source = new Uri("Themes/WindowStyle.xaml", UriKind.Relative)
-            };
-            Application.Current.Resources.MergedDictionaries.Add(windowStyle);
-
-            ThemeToggleIcon.Source = new BitmapImage(new Uri("resources/light.png", UriKind.Relative));
+            isDarkTheme = !isDarkTheme;
         }
 
-        private void SwitchToLightMode()
+        private void ThemeToggleButton_Click(object sender, RoutedEventArgs e)
         {
-            ResourceDictionary lightTheme = new ResourceDictionary
-            {
-                Source = new Uri("Themes/LightTheme.xaml", UriKind.Relative)
-            };
-            Application.Current.Resources.MergedDictionaries.Clear();
-            Application.Current.Resources.MergedDictionaries.Add(lightTheme);
-
-            ResourceDictionary windowStyle = new ResourceDictionary
-            {
-                Source = new Uri("Themes/WindowStyle.xaml", UriKind.Relative)
-            };
-            Application.Current.Resources.MergedDictionaries.Add(windowStyle);
-
-            ThemeToggleIcon.Source = new BitmapImage(new Uri("resources/dark.png", UriKind.Relative));
+            SwitchTheme();
         }
 
-        private void CloseWindow(object sender, RoutedEventArgs e)
+        public ICommand CloseCommand
         {
-            this.Close();
+            get { return new RelayCommand(o => this.Close()); }
         }
 
     }
 
     public class RelayCommand : ICommand
     {
-        private readonly Action<object> _execute;
-        private readonly Predicate<object> _canExecute;
+        private Action<object> execute;
+        private Func<object, bool> canExecute;
 
-        public RelayCommand(Action<object> execute) : this(execute, null)
+        public event EventHandler CanExecuteChanged
         {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
         }
 
-        public RelayCommand(Action<object> execute, Predicate<object> canExecute)
+        public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null)
         {
-            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
-            _canExecute = canExecute;
+            this.execute = execute;
+            this.canExecute = canExecute;
         }
 
         public bool CanExecute(object parameter)
         {
-            return _canExecute == null || _canExecute(parameter);
+            return this.canExecute == null || this.canExecute(parameter);
         }
 
         public void Execute(object parameter)
         {
-            _execute(parameter);
-        }
-
-        public event EventHandler CanExecuteChanged
-        {
-            add => CommandManager.RequerySuggested += value;
-            remove => CommandManager.RequerySuggested -= value;
+            this.execute(parameter);
         }
     }
 }

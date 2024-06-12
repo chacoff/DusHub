@@ -25,8 +25,8 @@
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Right" 
                     Margin="0,0,15,0">
-            <Button Name="ThemeToggleButton" Click="ToggleTheme">
-                <Image Name="ThemeToggleIcon" Source="resources/dark.png" Width="16" Height="16"/>
+            <Button Name="ThemeToggleButton" Click="ThemeToggleButton_Click">
+                <Image Name="ThemeToggleIcon" Source="resources/light.png" Width="16" Height="16"/>
             </Button>
         </StackPanel>
 
