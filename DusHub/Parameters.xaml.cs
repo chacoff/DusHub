@@ -76,6 +76,17 @@ namespace DusHub
         {
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None); // @"DusHub.dll"
 
+            string _theme;
+
+            if (themeBox.IsChecked == true){
+                _theme = "true";
+            }
+            else
+            {
+                _theme = "false";
+            }
+
+            config.AppSettings.Settings["ThemeApp"].Value = _theme;
             config.AppSettings.Settings["LufApp"].Value = txtLufBox.Text;
             config.AppSettings.Settings["BatApp"].Value = txtTarget.Text;
             config.AppSettings.Settings["RegeditApp"].Value = txtRegedit.Text;
@@ -90,6 +101,8 @@ namespace DusHub
 
             ConfigurationManager.RefreshSection("appSettings");
             parent.FillGrid();
+            Theme.SwitchTheme(Convert.ToBoolean(_theme));
+            parent.ThemeToggleIcon.Source = Theme.GetThemeIcon(Convert.ToBoolean(_theme));
             this.Close();
 
             // Process.Start(Application.ResourceAssembly.Location);
@@ -100,6 +113,7 @@ namespace DusHub
         {
             var appSet = ConfigurationManager.AppSettings;
 
+            themeBox.IsChecked = Convert.ToBoolean(appSet["ThemeApp"]);
             txtLufBox.Text = appSet["LufApp"].ToString();
             txtTarget.Text = appSet["BatApp"].ToString();
             txtRegedit.Text = appSet["RegeditApp"].ToString();
