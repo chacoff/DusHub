@@ -25,8 +25,7 @@ namespace DusHub
     /// </summary>
     public partial class MainWindow : Window
     {
-
-        private bool isDarkTheme = true;
+        private bool isDarkTheme = Convert.ToBoolean(ConfigurationManager.AppSettings["ThemeApp"]);
         private readonly RegistryHandler _registryHandler;
 
         public MainWindow()
@@ -35,13 +34,12 @@ namespace DusHub
             InitializeComponent();
             
             FillGrid();
-            
-            SwitchTheme();
 
             _registryHandler = new RegistryHandler();
 
-            Console.WriteLine("debugging start");
+            Theme.SwitchTheme(isDarkTheme);
 
+            ThemeToggleIcon.Source = Theme.GetThemeIcon(isDarkTheme);
         }
 
         public void CloseWindow_Click(object sender, RoutedEventArgs e)
@@ -118,6 +116,11 @@ namespace DusHub
             proc.StartInfo.WorkingDirectory = dir;
             proc.StartInfo.UseShellExecute = true;
             proc.StartInfo.Arguments = folder;
+
+            #if DEBUG
+                Console.WriteLine(folder);
+            #endif
+
             proc.Start();
         }
 
@@ -146,17 +149,6 @@ namespace DusHub
             {
                 launcherPipeline();
             }
-        }
-
-        private void Rename_RightClick(object sender, RoutedEventArgs e)
-        {
-            string folder = GetFullFolder();
-            Debug.WriteLine(folder);
-        }
-
-        private void Pattern_RightClick(object sender, RoutedEventArgs e)
-        {
-            //
         }
 
         private void params_Click(object sender, RoutedEventArgs e)
@@ -191,30 +183,28 @@ namespace DusHub
             }
         }
 
-        private void SwitchTheme()
-        {
-            var theme = isDarkTheme ? "Themes/DarkTheme.xaml" : "Themes/LightTheme.xaml";
-
-            if (!isDarkTheme)
-            {
-                ThemeToggleIcon.Source = new BitmapImage(new Uri("resources/light.png", UriKind.Relative));
-            }
-            else
-            {
-                ThemeToggleIcon.Source = new BitmapImage(new Uri("resources/dark.png", UriKind.Relative));
-            }
-
-            ResourceDictionary newTheme = new ResourceDictionary() { Source = new Uri(theme, UriKind.Relative) };
-
-            Application.Current.Resources.MergedDictionaries.Clear();
-            Application.Current.Resources.MergedDictionaries.Add(newTheme);
-
-            isDarkTheme = !isDarkTheme;
-        }
-
         private void ThemeToggleButton_Click(object sender, RoutedEventArgs e)
         {
-            SwitchTheme();
+            isDarkTheme = !isDarkTheme;
+
+            Theme.SwitchTheme(isDarkTheme);
+
+            ThemeToggleIcon.Source = Theme.GetThemeIcon(isDarkTheme);
+
+            SaveThemeFlag();
+
+        }
+
+        private void SaveThemeFlag()
+        {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+            config.AppSettings.Settings["ThemeApp"].Value = isDarkTheme.ToString();
+
+            config.Save(ConfigurationSaveMode.Modified, true);
+
+            ConfigurationManager.RefreshSection("appSettings");
+
         }
     }
 }

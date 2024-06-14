@@ -8,7 +8,7 @@
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         Title="Parameters" 
-        Height="375" Width="320" Icon="resources/hammer.png" 
+        Height="398" Width="320" Icon="resources/hammer.png" 
         ResizeMode="NoResize" BorderThickness="1,1,1,1" UseLayoutRounding="True">
 
     <Grid>
@@ -30,6 +30,12 @@
 
         <StackPanel Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" Orientation="Vertical" Margin="10,0,10,0">
 
+            <StackPanel Orientation="Horizontal">
+                <StackPanel VerticalAlignment="Center" Margin="0,0,0,6">
+                    <CheckBox Content="Dark/Light mode" Name="themeBox" />
+                </StackPanel>
+            </StackPanel>
+            
             <StackPanel Orientation="Vertical" >
                 <StackPanel Orientation="Horizontal" >
                     <Image Source="resources/folderY.png" Height="12" Width="12" />
