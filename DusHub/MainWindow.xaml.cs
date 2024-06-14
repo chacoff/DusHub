@@ -191,6 +191,20 @@ namespace DusHub
 
             ThemeToggleIcon.Source = Theme.GetThemeIcon(isDarkTheme);
 
+            SaveThemeFlag();
+
+        }
+
+        private void SaveThemeFlag()
+        {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+            config.AppSettings.Settings["ThemeApp"].Value = isDarkTheme.ToString();
+
+            config.Save(ConfigurationSaveMode.Modified, true);
+
+            ConfigurationManager.RefreshSection("appSettings");
+
         }
     }
 }
