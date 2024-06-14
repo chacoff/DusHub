@@ -40,6 +40,8 @@ namespace DusHub
 
             _registryHandler = new RegistryHandler();
 
+            Console.WriteLine("debugging start");
+
         }
 
         public void CloseWindow_Click(object sender, RoutedEventArgs e)
@@ -88,30 +90,62 @@ namespace DusHub
             MainGrid.ItemsSource = paths;
         }
 
-        private void Launch_RightClick(object sender, RoutedEventArgs e)
+        private string getNewFolder(string folder)
         {
-            string folder = GetFullFolder();
             var folderSplit = folder.Split('\\', 2);  // to avoid de drive letter
             string newFolder = folderSplit[1];
 
             if (newFolder.Substring(0, 1) == "\\")
             {
-                newFolder = folderSplit[1].Remove(0,1);
+                newFolder = folderSplit[1].Remove(0, 1);
             }
-            
+
+            return newFolder;
+        }
+
+        private void getINIready(string newFolder)
+        {
             string textINI = File.ReadAllText("resources/luxscan_base.ini");
             textINI = textINI.Replace("__base__", newFolder);
             File.WriteAllText("resources/luxscan.ini", textINI);
+        }
+
+        private void Launcher_endpoint(string bat, string dir, string folder)
+        {
+            Process proc = new Process();
+
+            proc.StartInfo.FileName = bat;
+            proc.StartInfo.WorkingDirectory = dir;
+            proc.StartInfo.UseShellExecute = true;
+            proc.StartInfo.Arguments = folder;
+            proc.Start();
+        }
+
+        private void launcherPipeline()
+        {
+            string folder = GetFullFolder();
+
+            string newFolder = getNewFolder(folder);
+
+            getINIready(newFolder);
 
             string loadingBat = ConfigurationManager.AppSettings["BatApp"].ToString();
             string loadingDir = loadingBat.TrimEnd('\\').Remove(loadingBat.LastIndexOf('\\'));
             
-            Process proc = new Process();
-            proc.StartInfo.FileName = loadingBat;
-            proc.StartInfo.WorkingDirectory = loadingDir;
-            proc.StartInfo.UseShellExecute = true;
-            proc.StartInfo.Arguments = folder;
-            proc.Start();
+            Launcher_endpoint(loadingBat, loadingDir, folder);
+        }
+
+        private void Launch_RightClick(object sender, RoutedEventArgs e)
+        {
+            launcherPipeline();
+        }
+
+        private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is DataGrid dataGrid)
+            {
+                launcherPipeline();
+            }
         }
 
         private void Rename_RightClick(object sender, RoutedEventArgs e)

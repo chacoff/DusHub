@@ -55,7 +55,8 @@
                   Background="Transparent" 
                   CanUserResizeRows="False"
                   CanUserResizeColumns="False"
-                  CanUserSortColumns="False">
+                  CanUserSortColumns="False"
+                  MouseDoubleClick="DataGrid_MouseDoubleClick">
 
             <DataGrid.Resources>
                 <!-- Cell Style -->
