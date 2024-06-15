@@ -16,7 +16,7 @@ namespace DusHub
         {
             var appSet = ConfigurationManager.AppSettings;
 
-            rip.Content = "Ripscan (uncheck for Chop)";
+            rip.Content = "Ripscan";
             RegistryKey _localKey = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.CurrentUser, RegistryView.Registry64); // RegistryView.Registry32
             var localreg = _localKey.OpenSubKey(appSet["RegeditApp"], true);
 
