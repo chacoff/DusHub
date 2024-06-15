@@ -1,4 +1,7 @@
 ﻿# dusHUB
 
+## dusHub Light Theme
+![UI](https://raw.githubusercontent.com/chacoff/DusHub/master/DusHub/resources/lightDus.JPG)
 
-![UI](https://raw.githubusercontent.com/chacoff/DusHub/master/DusHub/resources/dushub.JPG)
+## dusHub Dark Theme
+![UI](https://raw.githubusercontent.com/chacoff/DusHub/master/DusHub/resources/darkDus.JPG)

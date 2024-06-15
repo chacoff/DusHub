@@ -124,7 +124,7 @@
             </StackPanel>
 
             <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="37,5,0,0" >
-                <CheckBox Content="Ripscan" Name="Rip" IsChecked="False" IsThreeState="False"  
+                <CheckBox Content="Ripscan" Name="Rip" IsThreeState="False"  
                 Checked="Rip_Checked" Unchecked="Rip_Unchecked" FontSize="13" Margin="1,0,0,0" HorizontalContentAlignment="Left" />
 
                 <Button Click="params_Click" BorderBrush="Transparent" Background="Transparent" HorizontalContentAlignment="Left" >
