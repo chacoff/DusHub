@@ -26,8 +26,12 @@ namespace DusHub
     public partial class MainWindow : Window
     {
         private bool isDarkTheme = Convert.ToBoolean(ConfigurationManager.AppSettings["ThemeApp"]);
+        private bool isRip = Convert.ToBoolean(ConfigurationManager.AppSettings["RipFlagApp"]);
         private readonly RegistryHandler _registryHandler;
 
+        /// <summary>
+        /// Init the application: Fill the grid with potentials Opticores, init the regedit handle, init the theme and rip flag
+        /// </summary>
         public MainWindow()
         {
             
@@ -40,6 +44,17 @@ namespace DusHub
             Theme.SwitchTheme(isDarkTheme);
 
             ThemeToggleIcon.Source = Theme.GetThemeIcon(isDarkTheme);
+
+            Rip.IsChecked = isRip;
+            
+            if (isRip)
+            {
+                _registryHandler.Rip_Checked(Rip);
+            }
+            else
+            {
+                _registryHandler.Rip_Unchecked(Rip);
+            }
         }
 
         public void CloseWindow_Click(object sender, RoutedEventArgs e)
@@ -172,6 +187,7 @@ namespace DusHub
             if (sender is CheckBox Rip)
             {
                 _registryHandler.Rip_Checked(Rip);
+                SaveParameter(true, "RipFlagApp");
             }
         }
 
@@ -180,6 +196,7 @@ namespace DusHub
             if (sender is CheckBox Rip)
             {
                 _registryHandler.Rip_Unchecked(Rip);
+                SaveParameter(false, "RipFlagApp");
             }
         }
 
@@ -191,15 +208,15 @@ namespace DusHub
 
             ThemeToggleIcon.Source = Theme.GetThemeIcon(isDarkTheme);
 
-            SaveThemeFlag();
+            SaveParameter(isDarkTheme, "ThemeApp");
 
         }
 
-        private void SaveThemeFlag()
+        private void SaveParameter(bool flag, string flagName)
         {
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-            config.AppSettings.Settings["ThemeApp"].Value = isDarkTheme.ToString();
+            config.AppSettings.Settings[flagName].Value = flag.ToString();
 
             config.Save(ConfigurationSaveMode.Modified, true);
 
