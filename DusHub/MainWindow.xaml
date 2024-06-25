@@ -104,7 +104,7 @@
 
 
         <StackPanel Grid.Column="0" Grid.Row="2" Margin="0,0,2,2" Orientation="Horizontal" VerticalAlignment="bottom" HorizontalAlignment="right" >
-            <Label  Content="J. 2024"  FontSize="8"  Margin="0,0,0,0"/>
+            <Label  Content="J. 06-2024"  FontSize="8"  Margin="0,0,0,0"/>
             <Image Source="resources/lamp.png" Height="10" Width="10" Margin="0,0,2,2"/>
         </StackPanel>
 
